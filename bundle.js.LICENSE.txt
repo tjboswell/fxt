@@ -1,5 +1,213 @@
 The following NPM package may be included in this product:
 
+ - @georgedoescode/generative-utils@1.0.37
+
+This package contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2021 George Francis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - @timohausmann/quadtree-js@1.2.5
+
+This package contains the following license and notice below:
+
+# quadtree-js
+
+This is a JavaScript Quadtree implementation based on the Java Methods described on [gamedevelopment.tutsplus.com by Steven Lambert](https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374):
+
+> Many games require the use of collision detection algorithms to determine when two objects have collided, but these algorithms are often expensive operations and can greatly slow down a game. One way to speed things up is to reduce the number of checks that have to be made. Two objects that are at opposite ends of the screen can not possibly collide, so there is no need to check for a collision between them. This is where a quadtree comes into play.
+
+This implementation can store and retrieve rectangles in a recursive 2D Quadtree. Every Quadtree node can hold a maximum number of objects before it splits into four subnodes. Objects are only stored on leaf nodes (the lowest level). If an object overlaps into multiple leaf nodes, a reference to the object is stored in each node. 
+
+*Only 639 Bytes! (Compressed + Gzipped)*
+
+## Demos
+
+* [Simple Demo](https://timohausmann.github.io/quadtree-js/simple.html) – add static objects and see the Quadtree split
+* [Dynamic Demo](https://timohausmann.github.io/quadtree-js/dynamic.html) – continuously track moving objects
+* [Many to many Demo](https://timohausmann.github.io/quadtree-js/many.html) – check all objects against each other
+* [Benchmark v1.2](https://timohausmann.github.io/quadtree-js/test-10000-1.2.0.html) - Performance test with 10.000 objects
+* [Benchmark v1.1.3](https://timohausmann.github.io/quadtree-js/test-10000-1.1.3.html) - Performance test with 10.000 objects (old implementation)
+
+## Install
+
+Install this module via [npm](https://www.npmjs.com/package/@timohausmann/quadtree-js) and import or require it:
+
+```bash
+npm i -D @timohausmann/quadtree-js
+```
+
+```javascript
+import Quadtree from '@timohausmann/quadtree-js';
+```
+
+```javascript
+const Quadtree = require('@timohausmann/quadtree-js');
+```
+
+Alternatively, [download the source](https://github.com/timohausmann/quadtree-js/archive/master.zip) and include it the old-fashioned way:
+
+```html
+<script src="quadtree.min.js"></script>
+```
+
+Or use an awesome CDN like [jsdelivr](https://www.jsdelivr.com/package/npm/@timohausmann/quadtree-js) or [unpkg](https://unpkg.com/browse/@timohausmann/quadtree-js@latest/):
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-js/quadtree.min.js"></script>
+```
+
+```html
+<script src="https://unpkg.com/@timohausmann/quadtree-js/quadtree.min.js"></script>
+```
+
+
+## How to use
+
+Create a new Quadtree (with default values for `max_objects` (10) and `max_levels` (4)).
+
+```javascript
+var myTree = new Quadtree({
+    x: 0,
+    y: 0,
+    width: 400,
+    height: 300
+});
+```
+
+> MAX_OBJECTS defines how many objects a node can hold before it splits and MAX_LEVELS defines the deepest level subnode.
+
+If you want to specify `max_objects` and `max_levels` on your own, you can pass them as a 2nd and 3rd argument. I recommend using low values for `max_levels` because each level will quadruple the possible amount of nodes. Using lower values for `max_levels` increases performance but may return more candidates. Finetuning these values depends on your 2D space, the amount and size of the objects and your retrieving areas. 
+
+```javascript
+var myTree = new Quadtree({
+    x: 0,
+    y: 0,
+    width: 800,
+    height: 600
+}, 15, 6);
+``` 
+
+Insert an element in the Quadtree
+```javascript
+myTree.insert({
+    x: 100,
+    y: 100,
+    width: 100,
+    height: 100
+});
+```
+
+Retrieve elements from nodes that intersect with the given bounds
+```javascript
+var elements = myTree.retrieve({
+    x: 150,
+    y: 150,
+    width: 100,
+    height: 100
+});
+```
+
+Clear the Quadtree
+```javascript
+myTree.clear();
+```
+
+Check out the examples for more information.
+
+## Typescript
+
+Type definitions are included. Inserted objects need to conform to the `Quadtree.Rect` interface. 
+
+```javascript
+import Quadtree, { Rect } from '@timohausmann/quadtree-js';
+
+interface Player extends Rect {
+    name: string;
+    health: number;
+}
+
+const hero:Player = {
+    name: 'Shiffman',
+    health: 100,
+    x: 100,
+    y: 100,
+    width: 32,
+    height: 32
+}
+
+myTree.insert(hero);
+```
+
+## Browser Support
+
+This library is supported in all modern browsers including IE9 and above. 
+
+## Development scripts
+
+* `npm run build` to minify the source
+
+## Changelog
+
+### 1.2.4
+
+Added definition files for Typescript support
+
+JSDoc Fixes
+
+### 1.2.3
+
+Using github.io for examples (docs), CDN URLs
+
+### 1.2.2
+
+Removed `grunt` dev dependency, now using `uglify-js` to minifiy
+
+### 1.2.1
+
+Allow float boundaries for Quads
+
+Simplified getIndex function
+
+### 1.2.0
+
+This implementation now stores objects exclusively on leaf nodes and thus differs from the tutorial it's based on. Objects, that overlap into multiple subnodes are now referenced in each matching subnode instead of their parent node. This drastically reduces the collision candidates. Prior to 1.2.0, overlapping objects were stored in parent nodes. 
+
+### 1.1.3
+
+Support for npm and `module.exports`
+
+## Update single objects
+
+There is a (currently deprecated) [quadtree-js hitman branch](https://github.com/timohausmann/quadtree-js/tree/hitman) available that allows you to update and remove single objects. This may be handy when most of the objects in your Quadtree are static. Please raise an issue if you want to see this feature maintained in future releases.
+
+-----------
+
+The following NPM package may be included in this product:
+
  - abs-svg-path@0.1.1
 
 This package contains the following license and notice below:
@@ -382,6 +590,250 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The following NPM package may be included in this product:
 
+ - commander@7.2.0
+
+This package contains the following license and notice below:
+
+(The MIT License)
+
+Copyright (c) 2011 TJ Holowaychuk <tj@vision-media.ca>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----------
+
+The following NPM packages may be included in this product:
+
+ - d3-array@3.1.1
+ - d3-axis@3.0.0
+ - d3-brush@3.0.0
+ - d3-chord@3.0.1
+ - d3-color@3.0.1
+ - d3-dispatch@3.0.1
+ - d3-drag@3.0.0
+ - d3-force@3.0.0
+ - d3-format@3.1.0
+ - d3-hierarchy@3.1.1
+ - d3-interpolate@3.0.1
+ - d3-polygon@3.0.1
+ - d3-quadtree@3.0.1
+ - d3-random@3.0.1
+ - d3-scale@4.0.2
+ - d3-selection@3.0.0
+ - d3-shape@3.1.0
+ - d3-time-format@4.1.0
+ - d3-time@3.0.0
+ - d3-timer@3.0.1
+ - d3-transition@3.0.1
+ - d3-zoom@3.0.0
+ - d3@7.3.0
+
+These packages each contain the following license and notice below:
+
+Copyright 2010-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-contour@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2012-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-delaunay@6.0.2
+
+This package contains the following license and notice below:
+
+Copyright 2018-2021 Observable, Inc.
+Copyright 2021 Mapbox
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-dsv@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2013-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-ease@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2010-2021 Mike Bostock
+Copyright 2001 Robert Penner
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the author nor the names of contributors may be used to
+  endorse or promote products derived from this software without specific prior
+  written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-fetch@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2016-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-geo@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2010-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+This license applies to GeographicLib, versions 1.12 and later.
+
+Copyright 2008-2012 Charles Karney
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
  - d3-path@1.0.9
 
 This package contains the following license and notice below:
@@ -413,6 +865,65 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-path@3.0.1
+
+This package contains the following license and notice below:
+
+Copyright 2015-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - d3-scale-chromatic@3.0.0
+
+This package contains the following license and notice below:
+
+Copyright 2010-2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+Apache-Style Software License for ColorBrewer software and ColorBrewer Color Schemes
+
+Copyright 2002 Cynthia Brewer, Mark Harrower, and The Pennsylvania State University
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
 
 -----------
 
@@ -502,6 +1013,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - delaunator@5.0.0
+
+This package contains the following license and notice below:
+
+ISC License
+
+Copyright (c) 2017, Mapbox
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
 
 -----------
 
@@ -651,6 +1186,57 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - iconv-lite@0.6.3
+
+This package contains the following license and notice below:
+
+Copyright (c) 2011 Alexander Shtuchkin
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - internmap@2.0.3
+
+This package contains the following license and notice below:
+
+Copyright 2021 Mike Bostock
+
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
 
 -----------
 
@@ -858,6 +1444,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - json-stringify-safe@5.0.1
+
+This package contains the following license and notice below:
+
+The ISC License
+
+Copyright (c) Isaac Z. Schlueter and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 -----------
 
@@ -1572,6 +2182,520 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 The following NPM package may be included in this product:
 
+ - random-seed@0.3.0
+
+This package contains the following license and notice below:
+
+LICENSE AND COPYRIGHT:  THIS CODE IS HEREBY RELEASED INTO THE PUBLIC DOMAIN
+Gibson Research Corporation releases and disclaims ALL RIGHTS AND TITLE IN
+THIS CODE OR ANY DERIVATIVES. Anyone may be freely use it for any purpose.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - random@3.0.6
+
+This package contains the following license and notice below:
+
+# random
+
+> Seedable random number generator supporting many common distributions.
+
+[![NPM](https://img.shields.io/npm/v/random.svg)](https://www.npmjs.com/package/random) [![Build Status](https://github.com/transitive-bullshit/random/actions/workflows/build.yml/badge.svg)](https://github.com/transitive-bullshit/random/actions/workflows/build.yml) [![Prettier Code Formatting](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
+
+Welcome to the most **random** module on npm! 😜
+
+## Highlights
+
+- Simple API (_make easy things easy and hard things possible_)
+- TypeScript supported!
+- Seedable based on entropy or user input
+- Plugin support for different pseudo random number generators (PRNGs)
+- Sample from many common distributions
+  - uniform, normal, poisson, bernoulli, etc
+- Validates all user input via [ow](https://github.com/sindresorhus/ow)
+- Integrates with [seedrandom](https://github.com/davidbau/seedrandom)
+- Supports node >= 6 and browser
+
+## Install
+
+```bash
+npm install --save random
+# or
+yarn add random
+```
+
+## Usage
+
+```js
+const random = require('random')
+// or
+import random from 'random'
+
+// quick uniform shortcuts
+random.float((min = 0), (max = 1)) // uniform float in [ min, max )
+random.int((min = 0), (max = 1)) // uniform integer in [ min, max ]
+random.boolean() // true or false
+
+// uniform distribution
+random.uniform((min = 0), (max = 1)) // () => [ min, max )
+random.uniformInt((min = 0), (max = 1)) // () => [ min, max ]
+random.uniformBoolean() // () => [ false, true ]
+
+// normal distribution
+random.normal((mu = 0), (sigma = 1))
+random.logNormal((mu = 0), (sigma = 1))
+
+// bernoulli distribution
+random.bernoulli((p = 0.5))
+random.binomial((n = 1), (p = 0.5))
+random.geometric((p = 0.5))
+
+// poisson distribution
+random.poisson((lambda = 1))
+random.exponential((lambda = 1))
+
+// misc distribution
+random.irwinHall(n)
+random.bates(n)
+random.pareto(alpha)
+```
+
+For convenience, several common uniform samplers are exposed directly:
+
+```js
+random.float() // 0.2149383367670885
+random.int(0, 100) // 72
+random.boolean() // true
+```
+
+**All distribution methods return a thunk** (function with no params), which will return a series of independent, identically distributed random variables from the specified distribution.
+
+```js
+// create a normal distribution with default params (mu=1 and sigma=0)
+const normal = random.normal()
+normal() // 0.4855465422678824
+normal() // -0.06696771815439678
+normal() // 0.7350852689834705
+
+// create a poisson distribution with default params (lambda=1)
+const poisson = random.poisson()
+poisson() // 0
+poisson() // 4
+poisson() // 1
+```
+
+Note that returning a thunk here is more efficient when generating multiple
+samples from the same distribution.
+
+You can change the underlying PRNG or its seed as follows:
+
+```js
+const seedrandom = require('seedrandom')
+
+// change the underlying pseudo random number generator
+// by default, Math.random is used as the underlying PRNG
+random.use(seedrandom('foobar'))
+
+// create a new independent random number generator (uses seedrandom under the hood)
+const rng = random.clone('my-new-seed')
+
+// create a second independent random number generator and use a seeded PRNG
+const rng2 = random.clone(seedrandom('kittyfoo'))
+
+// replace Math.random with rng.uniform
+rng.patch()
+
+// restore original Math.random
+rng.unpatch()
+```
+
+## API
+
+<!-- Generated by documentation.js. Update this documentation by updating the source code. -->
+
+#### Table of Contents
+
+- [Random](#random)
+  - [rng](#rng)
+  - [clone](#clone)
+  - [use](#use)
+  - [patch](#patch)
+  - [unpatch](#unpatch)
+  - [next](#next)
+  - [float](#float)
+  - [int](#int)
+  - [integer](#integer)
+  - [bool](#bool)
+  - [boolean](#boolean)
+  - [uniform](#uniform)
+  - [uniformInt](#uniformint)
+  - [uniformBoolean](#uniformboolean)
+  - [normal](#normal)
+  - [logNormal](#lognormal)
+  - [bernoulli](#bernoulli)
+  - [binomial](#binomial)
+  - [geometric](#geometric)
+  - [poisson](#poisson)
+  - [exponential](#exponential)
+  - [irwinHall](#irwinhall)
+  - [bates](#bates)
+  - [pareto](#pareto)
+
+### [Random](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L36-L382)
+
+Seedable random number generator supporting many common distributions.
+
+Defaults to Math.random as its underlying pseudorandom number generator.
+
+Type: `function (rng)`
+
+- `rng` **(RNG | [function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function))** Underlying pseudorandom number generator. (optional, default `Math.random`)
+
+---
+
+#### [rng](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L47-L49)
+
+Type: `function ()`
+
+---
+
+#### [clone](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L61-L67)
+
+- **See: RNG.clone**
+
+Creates a new `Random` instance, optionally specifying parameters to
+set a new seed.
+
+Type: `function (args, seed, opts): Random`
+
+- `args` **...any**
+- `seed` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Optional seed for new RNG.
+- `opts` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Optional config for new RNG options.
+
+---
+
+#### [use](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L87-L89)
+
+Sets the underlying pseudorandom number generator used via
+either an instance of `seedrandom`, a custom instance of RNG
+(for PRNG plugins), or a string specifying the PRNG to use
+along with an optional `seed` and `opts` to initialize the
+RNG.
+
+Type: `function (args)`
+
+- `args` **...any**
+
+Example:
+
+```javascript
+const random = require('random')
+
+random.use('example_seedrandom_string')
+// or
+random.use(seedrandom('kittens'))
+// or
+random.use(Math.random)
+```
+
+---
+
+#### [patch](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L94-L101)
+
+Patches `Math.random` with this Random instance's PRNG.
+
+Type: `function ()`
+
+---
+
+#### [unpatch](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L106-L111)
+
+Restores a previously patched `Math.random` to its original value.
+
+Type: `function ()`
+
+---
+
+#### [next](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L124-L126)
+
+Convenience wrapper around `this.rng.next()`
+
+Returns a floating point number in \[0, 1).
+
+Type: `function (): number`
+
+---
+
+#### [float](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L138-L140)
+
+Samples a uniform random floating point number, optionally specifying
+lower and upper bounds.
+
+Convence wrapper around `random.uniform()`
+
+Type: `function (min, max): number`
+
+- `min` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Lower bound (float, inclusive) (optional, default `0`)
+- `max` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Upper bound (float, exclusive) (optional, default `1`)
+
+---
+
+#### [int](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L152-L154)
+
+Samples a uniform random integer, optionally specifying lower and upper
+bounds.
+
+Convence wrapper around `random.uniformInt()`
+
+Type: `function (min, max): number`
+
+- `min` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Lower bound (integer, inclusive) (optional, default `0`)
+- `max` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Upper bound (integer, inclusive) (optional, default `1`)
+
+---
+
+#### [integer](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L168-L170)
+
+Samples a uniform random integer, optionally specifying lower and upper
+bounds.
+
+Convence wrapper around `random.uniformInt()`
+
+Type: `function (min, max): number`
+
+- `min` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Lower bound (integer, inclusive) (optional, default `0`)
+- `max` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Upper bound (integer, inclusive) (optional, default `1`)
+
+---
+
+#### [bool](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L181-L183)
+
+Samples a uniform random boolean value.
+
+Convence wrapper around `random.uniformBoolean()`
+
+Type: `function (): boolean`
+
+---
+
+#### [boolean](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L192-L194)
+
+Samples a uniform random boolean value.
+
+Convence wrapper around `random.uniformBoolean()`
+
+Type: `function (): boolean`
+
+---
+
+#### [uniform](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L207-L209)
+
+Generates a [Continuous uniform distribution](<https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)>).
+
+Type: `function (min, max): function`
+
+- `min` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Lower bound (float, inclusive) (optional, default `0`)
+- `max` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Upper bound (float, exclusive) (optional, default `1`)
+
+---
+
+#### [uniformInt](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L218-L220)
+
+Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution).
+
+Type: `function (min, max): function`
+
+- `min` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Lower bound (integer, inclusive) (optional, default `0`)
+- `max` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Upper bound (integer, inclusive) (optional, default `1`)
+
+---
+
+#### [uniformBoolean](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L230-L232)
+
+Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution),
+with two possible outcomes, `true` or \`false.
+
+This method is analogous to flipping a coin.
+
+Type: `function (): function`
+
+---
+
+#### [normal](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L245-L247)
+
+Generates a [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).
+
+Type: `function (mu, sigma): function`
+
+- `mu` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Mean (optional, default `0`)
+- `sigma` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Standard deviation (optional, default `1`)
+
+---
+
+#### [logNormal](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L256-L258)
+
+Generates a [Log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution).
+
+Type: `function (mu, sigma): function`
+
+- `mu` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Mean of underlying normal distribution (optional, default `0`)
+- `sigma` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Standard deviation of underlying normal distribution (optional, default `1`)
+
+---
+
+#### [bernoulli](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L270-L272)
+
+Generates a [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution).
+
+Type: `function (p): function`
+
+- `p` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Success probability of each trial. (optional, default `0.5`)
+
+---
+
+#### [binomial](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L281-L283)
+
+Generates a [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution).
+
+Type: `function (n, p): function`
+
+- `n` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of trials. (optional, default `1`)
+- `p` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Success probability of each trial. (optional, default `0.5`)
+
+---
+
+#### [geometric](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L291-L293)
+
+Generates a [Geometric distribution](https://en.wikipedia.org/wiki/Geometric_distribution).
+
+Type: `function (p): function`
+
+- `p` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Success probability of each trial. (optional, default `0.5`)
+
+---
+
+#### [poisson](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L305-L307)
+
+Generates a [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution).
+
+Type: `function (lambda): function`
+
+- `lambda` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Mean (lambda > 0) (optional, default `1`)
+
+---
+
+#### [exponential](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L315-L317)
+
+Generates an [Exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution).
+
+Type: `function (lambda): function`
+
+- `lambda` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Inverse mean (lambda > 0) (optional, default `1`)
+
+---
+
+#### [irwinHall](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L329-L331)
+
+Generates an [Irwin Hall distribution](https://en.wikipedia.org/wiki/Irwin%E2%80%93Hall_distribution).
+
+Type: `function (n): function`
+
+- `n` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of uniform samples to sum (n >= 0) (optional, default `1`)
+
+---
+
+#### [bates](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L339-L341)
+
+Generates a [Bates distribution](https://en.wikipedia.org/wiki/Bates_distribution).
+
+Type: `function (n): function`
+
+- `n` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of uniform samples to average (n >= 1) (optional, default `1`)
+
+---
+
+#### [pareto](https://github.com/transitive-bullshit/random/blob/e11a840a1cfe0f5bd9c43640f9645a0b28f61406/src/random.js#L349-L351)
+
+Generates a [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution).
+
+Type: `function (alpha): function`
+
+- `alpha` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha (optional, default `1`)
+
+---
+
+## Todo
+
+- Distributions
+
+  - [x] uniform
+  - [x] uniformInt
+  - [x] uniformBoolean
+  - [x] normal
+  - [x] logNormal
+  - [ ] chiSquared
+  - [ ] cauchy
+  - [ ] fischerF
+  - [ ] studentT
+  - [x] bernoulli
+  - [x] binomial
+  - [ ] negativeBinomial
+  - [x] geometric
+  - [x] poisson
+  - [x] exponential
+  - [ ] gamma
+  - [ ] hyperExponential
+  - [ ] weibull
+  - [ ] beta
+  - [ ] laplace
+  - [x] irwinHall
+  - [x] bates
+  - [x] pareto
+
+- Generators
+
+  - [x] pluggable prng
+  - [ ] port more prng from boost
+  - [ ] custom entropy
+
+- Misc
+  - [x] browser support via rollup
+  - [x] basic docs
+  - [x] basic tests
+  - [x] test suite
+  - [x] initial release!
+  - [x] typescript support
+
+## Related
+
+- [d3-random](https://github.com/d3/d3-random) - D3's excellent random number generation library.
+- [seedrandom](https://github.com/davidbau/seedrandom) - Seedable pseudo random number generator.
+- [random-int](https://github.com/sindresorhus/random-int) - For the common use case of generating uniform random ints.
+- [random-float](https://github.com/sindresorhus/random-float) - For the common use case of generating uniform random floats.
+- [randombytes](https://github.com/crypto-browserify/randombytes) - Random crypto bytes for Node.js and the browser.
+
+## Credit
+
+Thanks go to [Andrew Moss](https://github.com/agmoss) for the TypeScript port and for helping to maintain this package!
+
+Shoutout to [Roger Combs](https://github.com/rcombs) for donating the `random` npm package for this project!
+
+Lots of inspiration from [d3-random](https://github.com/d3/d3-random) ([@mbostock](https://github.com/mbostock) and [@svanschooten](https://github.com/svanschooten)).
+
+Some distributions and PRNGs are ported from C++ [boost::random](https://www.boost.org/doc/libs/1_66_0/doc/html/boost_random/reference.html#boost_random.reference.distributions).
+
+## License
+
+MIT © [Travis Fischer](https://transitivebullsh.it)
+
+Support my OSS work by <a href="https://twitter.com/transitive_bs">following me on twitter <img src="https://storage.googleapis.com/saasify-assets/twitter-logo.svg" alt="twitter" height="24px" align="center"></a>
+
+-----------
+
+The following NPM package may be included in this product:
+
  - regexp.prototype.flags@1.3.1
 
 This package contains the following license and notice below:
@@ -1632,6 +2756,104 @@ THE SOFTWARE.
 
 The following NPM package may be included in this product:
 
+ - robust-predicates@3.0.1
+
+This package contains the following license and notice below:
+
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org>
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - rw@1.3.3
+
+This package contains the following license and notice below:
+
+Copyright (c) 2014-2016, Michael Bostock
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* The name Michael Bostock may not be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL MICHAEL BOSTOCK BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - safer-buffer@2.1.2
+
+This package contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2018 Nikita Skovoroda <chalkerx@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----------
+
+The following NPM package may be included in this product:
+
  - seed-random@2.2.0
 
 This package contains the following license and notice below:
@@ -1686,6 +2908,336 @@ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+
+-----------
+
+The following NPM package may be included in this product:
+
+ - seedrandom@3.0.5
+
+This package contains the following license and notice below:
+
+seedrandom.js
+=============
+[![Build Status](https://travis-ci.org/davidbau/seedrandom.svg?branch=master)](https://travis-ci.org/davidbau/seedrandom)
+[![NPM version](https://badge.fury.io/js/seedrandom.svg)](http://badge.fury.io/js/seedrandom)
+[![Bower version](https://badge.fury.io/bo/seedrandom.svg)](http://badge.fury.io/bo/seedrandom)
+
+Seeded random number generator for JavaScript.
+
+Version 3.0.5
+
+Author: David Bau
+
+Date: 2019-09-14
+
+Can be used as a plain script, a Node.js module or an AMD module.
+
+
+Script tag usage
+----------------
+
+```html
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
+</script>
+```
+
+```js
+// Make a predictable pseudorandom number generator.
+var myrng = new Math.seedrandom('hello.');
+console.log(myrng());                // Always 0.9282578795792454
+console.log(myrng());                // Always 0.3752569768646784
+
+// Use "quick" to get only 32 bits of randomness in a float.
+console.log(myrng.quick());          // Always 0.7316977467853576
+
+// Use "int32" to get a 32 bit (signed) integer
+console.log(myrng.int32());          // Always 1966374204
+
+// Calling seedrandom with no arguments creates an ARC4-based PRNG
+// that is autoseeded using the current time, dom state, and other
+// accumulated local entropy.
+var prng = new Math.seedrandom();
+console.log(prng());                // Reasonably unpredictable.
+
+// Seeds using the given explicit seed mixed with accumulated entropy.
+prng = new Math.seedrandom('added entropy.', { entropy: true });
+console.log(prng());                // As unpredictable as added entropy.
+
+// Warning: if you call Math.seedrandom without `new`, it replaces
+// Math.random with the predictable new Math.seedrandom(...), as follows:
+Math.seedrandom('hello.');
+console.log(Math.random());          // Always 0.9282578795792454
+console.log(Math.random());          // Always 0.3752569768646784
+
+```
+
+**Note**: calling `Math.seedrandom('constant')` without `new` will make
+`Math.random()` predictable globally, which is intended to be useful for
+derandomizing code for testing, but should not be done in a production library.
+If you need a local seeded PRNG, use `myrng = new Math.seedrandom('seed')`
+instead.  For example, [cryptico](https://www.npmjs.com/package/cryptico),
+an RSA encryption package, [uses the wrong form](
+https://github.com/wwwtyro/cryptico/blob/9291ece6/api.js#L264),
+and thus secretly makes `Math.random()` perfectly predictable.
+The cryptico library (and any other library that does this)
+should not be trusted in a security-sensitive application.
+
+
+Other Fast PRNG Algorithms
+--------------------------
+
+The package includes some other fast PRNGs.  To use Johannes Baagøe's
+extremely fast Alea PRNG:
+
+
+```html
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/lib/alea.min.js">
+</script>
+```
+
+```js
+// Use alea for Johannes Baagøe's clever and fast floating-point RNG.
+var arng = new alea('hello.');
+
+// By default provides 32 bits of randomness in a float.
+console.log(arng());               // Always 0.4783254903741181
+
+// Use "double" to get 56 bits of randomness.
+console.log(arng.double());        // Always 0.8297006866124559
+
+// Use "int32" to get a 32 bit (signed) integer.
+console.log(arng.int32());         // Always 1076136327
+```
+
+Besides alea, there are several other faster PRNGs available.
+Note that none of these fast PRNGs provide autoseeding: you
+need to provide your own seed (or use the default autoseeded
+seedrandom to make a seed).
+
+|PRNG name  | Time vs native | Period      | Author               |
+|-----------|----------------|-------------|----------------------|
+|`alea`     |  1.95 ns, 0.9x | ~2^116      | Baagøe               |
+|`xor128`   |  2.04 ns, 0.9x | 2^128-1     | Marsaglia            |
+|`tychei`   |  2.32 ns, 1.1x | ~2^127      | Neves/Araujo (ChaCha)|
+|`xorwow`   |  2.40 ns, 1.1x | 2^192-2^32  | Marsaglia            |
+|`xor4096`  |  2.40 ns, 1.1x | 2^4096-2^32 | Brent (xorgens)      |
+|`xorshift7`|  2.64 ns, 1.3x | 2^256-1     | Panneton/L'ecuyer    |
+|`quick`    |  3.80 ns, 1.8x | ~2^1600     | Bau (ARC4)           |
+
+(Timings were done on node v0.12.2 on a single-core Google Compute Engine
+instance.  `quick` is just the 32-bit version of the RC4-based PRNG
+originally packaged with seedrandom.)
+
+
+CJS / Node.js usage
+-------------------
+
+```
+npm install seedrandom
+```
+
+```js
+// Local PRNG: does not affect Math.random.
+var seedrandom = require('seedrandom');
+var rng = seedrandom('hello.');
+console.log(rng());                  // Always 0.9282578795792454
+
+// Global PRNG: set Math.random.
+seedrandom('hello.', { global: true });
+console.log(Math.random());          // Always 0.9282578795792454
+
+// Autoseeded ARC4-based PRNG.
+rng = seedrandom();
+console.log(rng());                  // Reasonably unpredictable.
+
+// Mixing accumulated entropy.
+rng = seedrandom('added entropy.', { entropy: true });
+console.log(rng());                  // As unpredictable as added entropy.
+
+// Using alternate algorithms, as listed above.
+var rng2 = seedrandom.xor4096('hello.')
+console.log(rng2());
+```
+
+Starting in version 3, when using via require('seedrandom'), the global
+`Math.seedrandom` is no longer available.
+
+
+Require.js usage
+----------------
+
+Similar to Node.js usage:
+
+```
+bower install seedrandom
+```
+
+```
+require(['seedrandom'], function(seedrandom) {
+  var rng = seedrandom('hello.');
+  console.log(rng());                  // Always 0.9282578795792454
+});
+```
+
+
+Network seeding
+---------------
+
+```html
+<script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js>
+</script>
+<!-- Seeds using urandom bits from a server. -->
+<script src=//jsonlib.appspot.com/urandom?callback=Math.seedrandom>
+</script>
+
+<!-- Seeds mixing in random.org bits -->
+<script>
+(function(x, u, s){
+  try {
+    // Make a synchronous request to random.org.
+    x.open('GET', u, false);
+    x.send();
+    s = unescape(x.response.trim().replace(/^|\s/g, '%'));
+  } finally {
+    // Seed with the response, or autoseed on failure.
+    Math.seedrandom(s, !!s);
+  }
+})(new XMLHttpRequest, 'https://www.random.org/integers/' +
+  '?num=256&min=0&max=255&col=1&base=16&format=plain&rnd=new');
+</script>
+```
+
+Reseeding using user input
+--------------------------
+
+```js
+var seed = Math.seedrandom();        // Use prng with an automatic seed.
+document.write(Math.random());       // Pretty much unpredictable x.
+
+var rng = new Math.seedrandom(seed); // A new prng with the same seed.
+document.write(rng());               // Repeat the 'unpredictable' x.
+
+function reseed(event, count) {      // Define a custom entropy collector.
+  var t = [];
+  function w(e) {
+    t.push([e.pageX, e.pageY, +new Date]);
+    if (t.length < count) { return; }
+    document.removeEventListener(event, w);
+    Math.seedrandom(t, { entropy: true });
+  }
+  document.addEventListener(event, w);
+}
+reseed('mousemove', 100);            // Reseed after 100 mouse moves.
+```
+
+The "pass" option can be used to get both the prng and the seed.
+The following returns both an autoseeded prng and the seed as an object,
+without mutating Math.random:
+
+```js
+var obj = Math.seedrandom(null, { pass: function(prng, seed) {
+  return { random: prng, seed: seed };
+}});
+```
+
+
+Saving and Restoring PRNG state
+-------------------------------
+
+```js
+var seedrandom = Math.seedrandom;
+var saveable = seedrandom("secret-seed", {state: true});
+for (var j = 0; j < 1e5; ++j) saveable();
+var saved = saveable.state();
+var replica = seedrandom("", {state: saved});
+assert(replica() == saveable());
+```
+
+In normal use the prng is opaque and its internal state cannot be accessed.
+However, if the "state" option is specified, the prng gets a state() method
+that returns a plain object the can be used to reconstruct a prng later in
+the same state (by passing that saved object back as the state option).
+
+
+Version notes
+-------------
+
+The random number sequence is the same as version 1.0 for string seeds.
+
+* Version 2.0 changed the sequence for non-string seeds.
+* Version 2.1 speeds seeding and uses window.crypto to autoseed if present.
+* Version 2.2 alters non-crypto autoseeding to sweep up entropy from plugins.
+* Version 2.3 adds support for "new", module loading, and a null seed arg.
+* Version 2.3.1 adds a build environment, module packaging, and tests.
+* Version 2.3.4 fixes bugs on IE8, and switches to MIT license.
+* Version 2.3.6 adds a readable options object argument.
+* Version 2.3.10 adds support for node.js crypto (contributed by ctd1500).
+* Version 2.3.11 adds an option to load and save internal state.
+* Version 2.4.0 adds implementations of several other fast PRNGs.
+* Version 2.4.2 adds an implementation of Baagoe's very fast Alea PRNG.
+* Version 2.4.3 ignores nodejs crypto when under browserify.
+* Version 2.4.4 avoids strict mode problem with global this reference.
+* Version 3.0.1 removes Math.seedrandom for require('seedrandom') users.
+* Version 3.0.3 updates package.json for CDN entrypoints.
+* Version 3.0.5 removes eval to avoid triggering content-security policy.
+
+The standard ARC4 key scheduler cycles short keys, which means that
+seedrandom('ab') is equivalent to seedrandom('abab') and 'ababab'.
+Therefore it is a good idea to add a terminator to avoid trivial
+equivalences on short string seeds, e.g., Math.seedrandom(str + '\0').
+Starting with version 2.0, a terminator is added automatically for
+non-string seeds, so seeding with the number 111 is the same as seeding
+with '111\0'.
+
+When seedrandom() is called with zero args or a null seed, it uses a
+seed drawn from the browser crypto object if present.  If there is no
+crypto support, seedrandom() uses the current time, the native rng,
+and a walk of several DOM objects to collect a few bits of entropy.
+
+Each time the one- or two-argument forms of seedrandom are called,
+entropy from the passed seed is accumulated in a pool to help generate
+future seeds for the zero- and two-argument forms of seedrandom.
+
+On speed - This javascript implementation of Math.random() is several
+times slower than the built-in Math.random() because it is not native
+code, but that is typically fast enough.  Some details (timings on
+Chrome 25 on a 2010 vintage macbook):
+
+* seeded Math.random()          - avg less than 0.0002 milliseconds per call
+* seedrandom('explicit.')       - avg less than 0.2 milliseconds per call
+* seedrandom('explicit.', true) - avg less than 0.2 milliseconds per call
+* seedrandom() with crypto      - avg less than 0.2 milliseconds per call
+
+Autoseeding without crypto is somewhat slow, about 20-30 milliseconds on
+a 2012 windows 7 1.5ghz i5 laptop, as seen on Firefox 19, IE 10, and Opera.
+Seeded rng calls themselves are fast across these browsers, with slowest
+numbers on Opera at about 0.0005 ms per seeded Math.random().
+
+
+LICENSE (MIT)
+-------------
+
+Copyright 2019 David Bau.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----------
 
